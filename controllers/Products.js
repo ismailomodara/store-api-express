@@ -1,13 +1,13 @@
 const Product = require('../models/Product');
 
 const index = async (req, res) => {
-    const { page, limit, sort, fields, search } = req.query;
+    const { page, limit, sort, fields, search, range } = req.query;
 
     /**
      * By default, only return products that have not been deleted.
      * Deleted products have status_id of 3.
      */
-    const filter = {
+    let filter = {
         status_id: { $ne: 3 }
     }
 
@@ -17,6 +17,33 @@ const index = async (req, res) => {
      */
     if (search) {
         filter['name'] = { $regex: search, $options: 'i'}
+    }
+
+    /**
+     * If 'range' is part of the query params, set it up as a
+     * filter property.
+     */
+    if (range) {
+        const operators = {
+            '>': '$gt',
+            '>=': '$gte',
+            '=': 'eq',
+            '<': '$lt',
+            '<=': '$lte',
+        }
+
+        const regEx = /\b(>|>=|=|<|<=)/g
+        let rangeFilters = range.replace(regEx, (match) => `-${operators[match]}-`)
+
+        const options = ['price', 'rating']
+
+        rangeFilters.split(',').forEach((property) => {
+            const [field, operator, value] = property.split('-');
+
+            if (options.includes(field)) {
+                filter[field] = {[operator]: value}
+            }
+        })
     }
 
     /**
@@ -58,7 +85,7 @@ const index = async (req, res) => {
         status: true,
         message: 'Products fetched.',
         data: {
-            page,
+            page: Number(page),
             total: products.length,
             products
         }
