@@ -7,12 +7,13 @@ const schema = new mongoose.Schema({
     name: {
         type: String,
         trim: true,
-        required: [true, 'Status name must be provided']
+        required: [true, 'Company name must be provided']
     },
-    label: {
+    email: {
         type: String,
         trim: true,
-        required: [true, 'Status label must be provided']
+        lowercase: true,
+        required: [true, 'Company email must be provided']
     },
     created_at: {
         type: Date,
@@ -24,4 +25,4 @@ const schema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Status', schema)
+module.exports = mongoose.model('Company', schema)

@@ -10,6 +10,7 @@ const error404 = require('./middleware/error-404')
 const errorHandlerMiddleware = require('./middleware/error-handler')
 
 const statuses = require('./routes/statuses');
+const companies = require('./routes/companies');
 const products = require('./routes/products');
 
 
@@ -22,6 +23,7 @@ app.get("/api/v1", (req, res) => {
 })
 
 app.use('/api/v1/statuses', statuses)
+app.use('/api/v1/companies', companies)
 app.use('/api/v1/products', products)
 
 app.use(errorHandlerMiddleware)
