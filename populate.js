@@ -11,11 +11,12 @@ const start = async () => {
         const tags = ['clothes', 'leather', 'shoes', 'trousers', 'jackets', 'shirts']
         const newJsonProducts = jsonProducts.map((product, index) => {
             return {
-                id: index + 1,
                 ...product,
+                id: index + 1,
                 tag: tags[Math.floor(Math.random() * tags.length)]
             }
         })
+        await Product.deleteMany();
         await Product.create(newJsonProducts)
         console.log('Products loaded!')
         process.exit(0)
@@ -24,4 +25,4 @@ const start = async () => {
     }
 }
 
-start()
+// start()

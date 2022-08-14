@@ -36,7 +36,11 @@ const show = async (req, res) => {
 }
 
 const update = async (req, res) => {
-    const company = await Company.findOneAndUpdate({ id: req.params.id }, req.body, {
+    const payload = {
+        ...req.body,
+        updated_at: Date.now()
+    }
+    const company = await Company.findOneAndUpdate({ id: req.params.id }, payload, {
         new: true,
         runValidators: true
     })
@@ -55,7 +59,11 @@ const update = async (req, res) => {
 }
 
 const destroy = async (req, res) => {
-    const company = await Company.findOneAndUpdate({ id: req.params.id }, { status_id: 3 })
+    const payload = {
+        status_id: 3,
+        deleted_at: Date.now()
+    }
+    const company = await Company.findOneAndUpdate({ id: req.params.id }, payload)
     if(!company) {
         return res.status(404).json({
             status: false,
