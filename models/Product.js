@@ -10,19 +10,19 @@ const schema = new mongoose.Schema({
         type: Number,
         required: [true, 'Product price must be provided']
     },
-    status_id: {
-        type: Number,
-        default: 2
-    },
     rating: {
         type: Number,
         default: 0
+    },
+    status_id: {
+        type: Number,
+        default: 2
     },
     company_id: {
         type: Number,
         required: [true, 'Product company is required']
     },
-    tags: {
+    tag: {
         type: String,
         enum: {
             values: ['clothes', 'leather', 'shoes', 'trousers', 'jackets', 'shirts'],

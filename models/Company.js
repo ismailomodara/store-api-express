@@ -15,6 +15,10 @@ const schema = new mongoose.Schema({
         lowercase: true,
         required: [true, 'Company email must be provided']
     },
+    status_id: {
+        type: Number,
+        default: 5
+    },
     created_at: {
         type: Date,
         default: Date.now()
